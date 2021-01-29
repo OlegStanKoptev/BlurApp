@@ -7,17 +7,29 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var backgroundImageView: UIImageView!
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
     var blurEffectView: UIVisualEffectView?
     
-    @IBAction func signInPressed(sender: AnyObject) {
-        print("You pressed sign in")
-        emailTextField.resignFirstResponder()
-        passwordTextField.resignFirstResponder()
+    @IBAction func signInPressed(sender: AnyObject?) {
+        if emailTextField.isEditing {
+            emailTextField.resignFirstResponder()
+        }
+        if passwordTextField.isEditing {
+            passwordTextField.resignFirstResponder()
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if emailTextField.isEditing {
+            passwordTextField.becomeFirstResponder()
+        } else {
+            signInPressed(sender: nil)
+        }
+        return false
     }
     
     func addUnderline(textField: UITextField!) {
@@ -44,10 +56,12 @@ class ViewController: UIViewController {
                
         emailTextField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         emailTextField.keyboardType = .emailAddress
+        emailTextField.delegate = self
         
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         passwordTextField.keyboardType = .asciiCapable
         passwordTextField.isSecureTextEntry = true
+        passwordTextField.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
