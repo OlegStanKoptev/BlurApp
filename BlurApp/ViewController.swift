@@ -55,6 +55,10 @@ class ViewController: UIViewController {
         addUnderline(textField: emailTextField)
         addUnderline(textField: passwordTextField)
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        blurEffectView?.frame = view.bounds
+    }
 
 
 }
