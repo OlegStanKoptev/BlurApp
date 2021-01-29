@@ -21,6 +21,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
         if passwordTextField.isEditing {
             passwordTextField.resignFirstResponder()
         }
+        if let email = emailTextField.text, let password = passwordTextField.text {
+            var message: String = ""
+            if (email == "" || password == "") {
+                message = "You didn't fill in all available fields"
+            } else {
+                message = "You entered \(email) as email and \(password) as password"
+            }
+            let alert = UIAlertController(title: "Auth State", message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -41,7 +52,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         textField.layer.addSublayer(border)
         textField.layer.masksToBounds = true
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,14 +64,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
         blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView?.frame = view.bounds
         backgroundImageView.addSubview(blurEffectView!)
-               
+        
         emailTextField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         emailTextField.keyboardType = .emailAddress
+        emailTextField.returnKeyType = .next
         emailTextField.delegate = self
         
         passwordTextField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         passwordTextField.keyboardType = .asciiCapable
         passwordTextField.isSecureTextEntry = true
+        passwordTextField.returnKeyType = .done
         passwordTextField.delegate = self
     }
     
@@ -74,7 +87,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         blurEffectView?.frame = view.bounds
         backgroundImageView.frame = view.bounds
     }
-
-
+    
+    
 }
 
