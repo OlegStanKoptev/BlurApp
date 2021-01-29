@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         
         let selectedImageIndex = Int(arc4random_uniform(3))
         backgroundImageView.image = UIImage(named: "Image\(selectedImageIndex + 1)")
-        backgroundImageView.frame = UIScreen.main.bounds
+        backgroundImageView.frame = view.bounds
         
         let blurEffect = UIBlurEffect(style: .light)
         blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -58,6 +58,7 @@ class ViewController: UIViewController {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         blurEffectView?.frame = view.bounds
+        backgroundImageView.frame = view.bounds
     }
 
 
